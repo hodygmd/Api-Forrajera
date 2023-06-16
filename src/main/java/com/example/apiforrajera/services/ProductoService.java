@@ -27,12 +27,12 @@ public class ProductoService {
         return repository.findAllByStatus();
     }
     public Producto create(ProductoDto productoDto){
-        String[] result= repository.findNombresByStatus().toArray(new String[0]);
+        /*String[] result= repository.findNombresByStatus().toArray(new String[0]);
         for(int i=0;i<result.length;i++){
             if (productoDto.getNombre().equals(result[i])) {
                 throw new ResponseStatusException(HttpStatus.FOUND,String.format("Producto %s already exists",result[i]));
             }
-        }
+        }*/
         Producto producto=new Producto();
         return getProducto(productoDto,producto);
     }
@@ -55,6 +55,7 @@ public class ProductoService {
     }
 
     private Producto getProducto(ProductoDto productoDto,Producto producto) {
+        producto.setClave(productoDto.getClave());
         producto.setNombre(productoDto.getNombre());
         producto.setDescripcion(productoDto.getDescripcion());
         producto.setPrecio(productoDto.getPrecio());

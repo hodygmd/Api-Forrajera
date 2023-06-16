@@ -50,7 +50,7 @@ public class PresentacionService {
 
     private Presentacion getPresentacion(PresentacionDto presentacionDto, Presentacion presentacion) {
         presentacion.setNombre(presentacionDto.getNombre());
-        presentacion.setDescripcion(presentacionDto.getDecripcion());
+        presentacion.setDescripcion(presentacionDto.getDescripcion());
         presentacion.setId_unidad_medida(unidadMedidaRepository.findById(presentacionDto.getId_unidad_medida()).get());
         presentacion.setMedida(presentacionDto.getMedida());
         presentacion.setStatus(presentacionDto.getStatus());
