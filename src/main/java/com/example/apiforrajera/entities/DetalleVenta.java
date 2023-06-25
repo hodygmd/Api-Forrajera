@@ -8,15 +8,15 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "detalle_venta")
-public class Dv {
+public class DetalleVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "folio_cv")
-    private Compra folio_cv;
-    @ManyToOne
+    private Venta folio_cv;
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clave_producto")
     private Producto clave_producto;
     @Column(name = "cantidad")

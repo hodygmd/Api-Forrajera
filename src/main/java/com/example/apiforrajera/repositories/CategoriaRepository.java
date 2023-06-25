@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
-    @Query("select c from Categoria c where c.status=1")
+    @Query("select c from Categoria c where c.status=1 order by c.nombre asc ")
     public List<Categoria> findAllByStatus();
     @Query("select c.nombre from Categoria c where c.status=1")
     public List<String> findNombresByStatus();

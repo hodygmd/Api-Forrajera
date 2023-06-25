@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface FuncionRepository extends JpaRepository<Funcion,Integer> {
-    @Query("select f from Funcion f where f.status=1")
+    @Query("select f from Funcion f where f.status=1 order by f.nombre asc ")
     public List<Funcion> findAllByStatus();
     @Query("select f.nombre from Funcion f where f.status=1")
     public List<String> findNombresByStatus();
