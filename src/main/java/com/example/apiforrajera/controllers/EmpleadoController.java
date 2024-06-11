@@ -38,10 +38,18 @@ public class EmpleadoController {
     public ResponseEntity<Empleado> update(@PathVariable("clave")String clave,@RequestBody EmpleadoDto empleadoDto){
         return new ResponseEntity<>(service.update(clave,empleadoDto),HttpStatus.OK);
     }
+    @PutMapping("/update-pass/{clave}")
+    public ResponseEntity<Empleado> updatePassword(@PathVariable("clave")String clave,@RequestBody EmpleadoDto empleadoDto){
+        return new ResponseEntity<>(service.updatePassword(clave,empleadoDto),HttpStatus.OK);
+    }
     @Operation(summary = "Eliminar un empleado")
     @ApiResponse(responseCode = "200", description = "Empleado eliminado")
     @PutMapping("/delete/{clave}")
     public ResponseEntity<Empleado> delete(@PathVariable("clave")String clave){
         return new ResponseEntity<>(service.delete(clave),HttpStatus.OK);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody EmpleadoDto empleadoDto) {
+        return new ResponseEntity<>(service.login(empleadoDto.getUsername(),empleadoDto.getPassword()),HttpStatus.OK);
     }
 }
