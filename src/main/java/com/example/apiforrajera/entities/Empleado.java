@@ -14,6 +14,10 @@ public class Empleado {
     private String clave;
     @Column(name = "nombre")
     private String nombre;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
     @OneToOne
     @JoinColumn(name = "id_puesto")
     private Puesto id_puesto;
