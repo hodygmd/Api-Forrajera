@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface EmpleadoRepository extends JpaRepository<Empleado,String> {
+    Empleado findEmpleadoByUsername(String username);
     @Query("select e from Empleado e where e.status=1 order by e.nombre asc ")
     public List<Empleado> findAllByStatus();
     @Query("select e.nombre from Empleado e where e.status=1")
