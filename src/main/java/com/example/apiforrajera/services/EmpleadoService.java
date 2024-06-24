@@ -1,6 +1,8 @@
 package com.example.apiforrajera.services;
 
+import com.example.apiforrajera.config.JwtProvider;
 import com.example.apiforrajera.dto.EmpleadoDto;
+import com.example.apiforrajera.dto.TokenDto;
 import com.example.apiforrajera.entities.Empleado;
 import com.example.apiforrajera.repositories.EmpleadoRepository;
 import com.example.apiforrajera.repositories.PuestoRepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmpleadoService {
@@ -20,6 +23,8 @@ public class EmpleadoService {
     private PuestoRepository puestoRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtProvider provider;
     public List<Empleado> getAllByStatus(){
         return repository.findAllByStatus();
     }
@@ -82,5 +87,36 @@ public class EmpleadoService {
     private Empleado getEmpleadoPass(EmpleadoDto empleadoDto,Empleado empleado,boolean flag) {
         empleado.setPassword(passwordEncoder.encode(empleadoDto.getPassword()));
         return repository.save(empleado);
+    }
+    public TokenDto createToken(String clave, String pass) {
+        Empleado empleado;
+        try {
+            empleado = repository.findEmpleadoByClave(clave);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User %s doesn't exist", clave));
+        }
+
+        if (!passwordEncoder.matches(pass, empleado.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+        }
+
+        EmpleadoDto result = entityToDto(empleado);
+        String token = provider.createToken(result);
+
+        return new TokenDto(token);
+    }
+    private EmpleadoDto entityToDto(Empleado empleado) {
+        return new EmpleadoDto(
+                empleado.getClave(),
+                empleado.getUsername(),
+                empleado.getPassword()
+        );
+
+    }
+    public TokenDto validate(String token){
+        provider.validate(token);
+        String user=provider.getUsernameFromToken(token);
+        repository.findByUsername(user).orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return new TokenDto(token);
     }
 }
