@@ -23,6 +23,9 @@ public class VentaService {
     public List<Venta> getAllByStatus(){
         return repository.findAllByStatus();
     }
+    public List<Venta> getAllByStatusAndEmpleado(String clave){
+        return repository.findAllByClave_empleado(clave);
+    }
     public Venta create(CvDto ventaDto){
         Venta venta=new Venta();
         Venta2 venta2=new Venta2();

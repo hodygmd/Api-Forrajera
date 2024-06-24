@@ -11,4 +11,6 @@ import java.util.List;
 public interface VentaRepository extends JpaRepository<Venta,String> {
     @Query("select v from Venta v where v.status=1 order by v.clave_empleado.nombre")
     public List<Venta> findAllByStatus();
+    @Query("select v from Venta v where v.status=1 and v.clave_empleado.clave=?1")
+    public List<Venta> findAllByClave_empleado(String clave);
 }
