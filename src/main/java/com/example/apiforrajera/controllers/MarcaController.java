@@ -2,6 +2,7 @@ package com.example.apiforrajera.controllers;
 
 import com.example.apiforrajera.dto.MrcFncnDto;
 import com.example.apiforrajera.entities.Marca;
+import com.example.apiforrajera.services.EmpleadoService;
 import com.example.apiforrajera.services.MarcaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,28 +21,41 @@ import java.util.List;
 public class MarcaController {
     @Autowired
     private MarcaService service;
+    @Autowired
+    private EmpleadoService empleadoService;
+
     @Operation(summary = "Obtener todas las marcas por estado")
     @ApiResponse(responseCode = "200", description = "Marcas encontradas")
     @GetMapping
-    public ResponseEntity<List<Marca>> getAllByStatus(){
+    public ResponseEntity<List<Marca>> getAllByStatus(@RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.getAllByStatus(), HttpStatus.OK);
     }
+
     @Operation(summary = "Crear una nueva marca")
     @ApiResponse(responseCode = "201", description = "Marca creada")
     @PostMapping("/create")
-    public ResponseEntity<Marca> create(@RequestBody MrcFncnDto mrcFncnDto){
+    public ResponseEntity<Marca> create(@RequestBody MrcFncnDto mrcFncnDto,
+                                        @RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.create(mrcFncnDto),HttpStatus.CREATED);
     }
+
     @Operation(summary = "Actualizar una marca existente")
     @ApiResponse(responseCode = "200", description = "Marca actualizada")
     @PutMapping("/update/{id}")
-    public ResponseEntity<Marca> update(@PathVariable("id")Integer id,@RequestBody MrcFncnDto mrcFncnDto){
+    public ResponseEntity<Marca> update(@PathVariable("id")Integer id,@RequestBody MrcFncnDto mrcFncnDto,
+                                        @RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.update(id,mrcFncnDto),HttpStatus.OK);
     }
+
     @Operation(summary = "Eliminar una marca")
     @ApiResponse(responseCode = "200", description = "Marca eliminada")
     @PutMapping("/delete/{id}")
-    public ResponseEntity<Marca> delete(@PathVariable("id")Integer id){
+    public ResponseEntity<Marca> delete(@PathVariable("id")Integer id,
+                                        @RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.delete(id),HttpStatus.OK);
     }
 }

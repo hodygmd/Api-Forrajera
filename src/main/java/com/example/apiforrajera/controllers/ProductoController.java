@@ -2,6 +2,7 @@ package com.example.apiforrajera.controllers;
 
 import com.example.apiforrajera.dto.ProductoDto;
 import com.example.apiforrajera.entities.Producto;
+import com.example.apiforrajera.services.EmpleadoService;
 import com.example.apiforrajera.services.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,28 +20,41 @@ import java.util.List;
 public class ProductoController {
     @Autowired
     private ProductoService service;
+    @Autowired
+    private EmpleadoService empleadoService;
+
     @Operation(summary = "Obtener todos los productos por estado")
     @ApiResponse(responseCode = "200", description = "Productos encontrados")
     @GetMapping
-    public ResponseEntity<List<Producto>> getAllByStatus(){
+    public ResponseEntity<List<Producto>> getAllByStatus(@RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.getAllByStatus(), HttpStatus.OK);
     }
+
     @Operation(summary = "Crear un nuevo producto")
     @ApiResponse(responseCode = "201", description = "Producto creado")
     @PostMapping("/create")
-    public ResponseEntity<Producto> create(@RequestBody ProductoDto productoDto){
+    public ResponseEntity<Producto> create(@RequestBody ProductoDto productoDto,
+                                           @RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.create(productoDto),HttpStatus.CREATED);
     }
+
     @Operation(summary = "Actualizar un producto existente")
     @ApiResponse(responseCode = "200", description = "Producto actualizado")
     @PutMapping("/update/{clave}")
-    public ResponseEntity<Producto> update(@PathVariable("clave")String clave,@RequestBody ProductoDto productoDto){
+    public ResponseEntity<Producto> update(@PathVariable("clave")String clave,@RequestBody ProductoDto productoDto,
+                                           @RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.update(clave,productoDto),HttpStatus.OK);
     }
+
     @Operation(summary = "Eliminar un producto")
     @ApiResponse(responseCode = "200", description = "Producto eliminado")
     @PutMapping("/delete/{clave}")
-    public ResponseEntity<Producto> delete(@PathVariable("clave")String clave){
+    public ResponseEntity<Producto> delete(@PathVariable("clave")String clave,
+                                           @RequestParam(value = "token") String token){
+        empleadoService.validate(token);
         return new ResponseEntity<>(service.delete(clave),HttpStatus.OK);
     }
 }
