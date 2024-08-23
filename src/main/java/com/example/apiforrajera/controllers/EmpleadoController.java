@@ -25,7 +25,7 @@ public class EmpleadoController {
     @Operation(summary = "Obtener todos los empleados por estado")
     @ApiResponse(responseCode = "200", description = "Empleados encontrados")
     @GetMapping
-    public ResponseEntity<List<Empleado>> getAllByStatus(@RequestParam(value = "token") String token){
+    public ResponseEntity<List<Empleado>> getAllByStatus(@RequestHeader(value = "Authorization") String token){
         service.validate(token);
         return new ResponseEntity<>(service.getAllByStatus(), HttpStatus.OK);
     }
@@ -34,7 +34,7 @@ public class EmpleadoController {
     @ApiResponse(responseCode = "201", description = "Empleado creado")
     @PostMapping("/create")
     public ResponseEntity<Empleado> create(@RequestBody EmpleadoDto empleadoDto,
-                                           @RequestParam(value = "token") String token){
+                                           @RequestHeader(value = "Authorization") String token){
         service.validate(token);
         return new ResponseEntity<>(service.create(empleadoDto),HttpStatus.CREATED);
     }
@@ -43,7 +43,7 @@ public class EmpleadoController {
     @ApiResponse(responseCode = "200", description = "Empleado actualizado")
     @PutMapping("/update/{clave}")
     public ResponseEntity<Empleado> update(@PathVariable("clave")String clave,@RequestBody EmpleadoDto empleadoDto,
-                                           @RequestParam(value = "token") String token){
+                                           @RequestHeader(value = "Authorization") String token){
         service.validate(token);
         return new ResponseEntity<>(service.update(clave,empleadoDto),HttpStatus.OK);
     }
@@ -52,7 +52,7 @@ public class EmpleadoController {
     @ApiResponse(responseCode = "200", description = "Contraseña actualizada")
     @PutMapping("/update-pass/{clave}")
     public ResponseEntity<Empleado> updatePassword(@PathVariable("clave")String clave,@RequestBody EmpleadoDto empleadoDto,
-                                                   @RequestParam(value = "token") String token){
+                                                   @RequestHeader(value = "Authorization") String token){
         service.validate(token);
         return new ResponseEntity<>(service.updatePassword(clave,empleadoDto),HttpStatus.OK);
     }
@@ -60,7 +60,7 @@ public class EmpleadoController {
     @Operation(summary = "Eliminar un empleado")
     @ApiResponse(responseCode = "200", description = "Empleado eliminado")
     @PutMapping("/delete/{clave}")
-    public ResponseEntity<Empleado> delete(@PathVariable("clave")String clave,@RequestParam(value = "token") String token){
+    public ResponseEntity<Empleado> delete(@PathVariable("clave")String clave,@RequestHeader(value = "Authorization") String token){
         service.validate(token);
         return new ResponseEntity<>(service.delete(clave),HttpStatus.OK);
     }
@@ -68,7 +68,7 @@ public class EmpleadoController {
     @Operation(summary = "Iniciar sesión de un empleado")
     @ApiResponse(responseCode = "201", description = "Empleado logueado")
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody EmpleadoDto empleadoDto,@RequestParam(value = "token") String token) {
+    public ResponseEntity<?> loginUser(@RequestBody EmpleadoDto empleadoDto,@RequestHeader(value = "Authorization") String token) {
         service.validate(token);
         return new ResponseEntity<>(service.login(empleadoDto.getUsername(),empleadoDto.getPassword()),HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class EmpleadoController {
     @Operation(summary = "Validar un token")
     @ApiResponse(responseCode = "201", description = "Token validado")
     @PostMapping("/validate")
-    public ResponseEntity<TokenDto> validate(@RequestParam String token){
+    public ResponseEntity<TokenDto> validate(@RequestHeader(value = "Authorization") String token){
         TokenDto tokenDto=service.validate(token);
         return ResponseEntity.ok(tokenDto);
     }

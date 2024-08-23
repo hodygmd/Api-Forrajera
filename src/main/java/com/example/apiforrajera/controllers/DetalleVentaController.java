@@ -26,7 +26,7 @@ public class DetalleVentaController {
     @ApiResponse(responseCode = "201", description = "Detalles de venta creados")
     @PostMapping("/create")
     public ResponseEntity<DetalleVenta[]> create(@RequestBody DcvDto[] dto,
-                                                 @RequestParam(value = "token") String token){
+                                                 @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
@@ -35,7 +35,7 @@ public class DetalleVentaController {
     @ApiResponse(responseCode = "200", description = "Detalles de venta encontrados")
     @GetMapping("/{folio}")
     public ResponseEntity<DetalleVenta[]> getAllByFolio(@PathVariable("folio")String folio,
-                                                        @RequestParam(value = "token") String token){
+                                                        @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.getAllByFolio(folio),HttpStatus.OK);
     }
@@ -43,7 +43,7 @@ public class DetalleVentaController {
     @Operation(summary = "Eliminar un detalle de venta")
     @ApiResponse(responseCode = "200", description = "Detalle de venta eliminado")
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id")Integer id,@RequestParam(value = "token") String token){
+    public void delete(@PathVariable("id")Integer id,@RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         service.delete(id);
     }

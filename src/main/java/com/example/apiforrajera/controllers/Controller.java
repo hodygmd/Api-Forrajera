@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
-@RequestMapping("/")
+@RequestMapping("/hello")
 public class Controller {
     @GetMapping
     public ResponseEntity<String> home(){

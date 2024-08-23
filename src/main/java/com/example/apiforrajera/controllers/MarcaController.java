@@ -27,7 +27,7 @@ public class MarcaController {
     @Operation(summary = "Obtener todas las marcas por estado")
     @ApiResponse(responseCode = "200", description = "Marcas encontradas")
     @GetMapping
-    public ResponseEntity<List<Marca>> getAllByStatus(@RequestParam(value = "token") String token){
+    public ResponseEntity<List<Marca>> getAllByStatus(@RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.getAllByStatus(), HttpStatus.OK);
     }
@@ -36,7 +36,7 @@ public class MarcaController {
     @ApiResponse(responseCode = "201", description = "Marca creada")
     @PostMapping("/create")
     public ResponseEntity<Marca> create(@RequestBody MrcFncnDto mrcFncnDto,
-                                        @RequestParam(value = "token") String token){
+                                        @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.create(mrcFncnDto),HttpStatus.CREATED);
     }
@@ -45,7 +45,7 @@ public class MarcaController {
     @ApiResponse(responseCode = "200", description = "Marca actualizada")
     @PutMapping("/update/{id}")
     public ResponseEntity<Marca> update(@PathVariable("id")Integer id,@RequestBody MrcFncnDto mrcFncnDto,
-                                        @RequestParam(value = "token") String token){
+                                        @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.update(id,mrcFncnDto),HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class MarcaController {
     @ApiResponse(responseCode = "200", description = "Marca eliminada")
     @PutMapping("/delete/{id}")
     public ResponseEntity<Marca> delete(@PathVariable("id")Integer id,
-                                        @RequestParam(value = "token") String token){
+                                        @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.delete(id),HttpStatus.OK);
     }

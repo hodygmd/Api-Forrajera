@@ -46,7 +46,7 @@ public class JwtProvider implements Serializable {
 
         // Establecer las fechas de emisión y expiración
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + 3600 * 1000 * 24 * 10); // 10 días
+        Date expiration = new Date(now.getTime() + 3600 * 1000 * 24 * 356); // 10 días
 
         // Construir el token
         return Jwts.builder()

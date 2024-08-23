@@ -27,7 +27,7 @@ public class CategoriaController {
     @Operation(summary = "Obtener todas las categorías por estado")
     @ApiResponse(responseCode = "200", description = "Categorías encontradas")
     @GetMapping
-    public ResponseEntity<List<Categoria>> getAllByStatus(@RequestParam(value = "token") String token){
+    public ResponseEntity<List<Categoria>> getAllByStatus(@RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.getAllByStatus(), HttpStatus.OK);
     }
@@ -36,7 +36,7 @@ public class CategoriaController {
     @ApiResponse(responseCode = "201", description = "Categoría creada")
     @PostMapping("/create")
     public ResponseEntity<Categoria> create(@RequestBody CategoriaDto categoriaDto,
-                                            @RequestParam(value = "token") String token){
+                                            @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.create(categoriaDto),HttpStatus.CREATED);
     }
@@ -46,7 +46,7 @@ public class CategoriaController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Categoria> update(@PathVariable("id")Integer id,
                                             @RequestBody CategoriaDto categoriaDto,
-                                            @RequestParam(value = "token") String token){
+                                            @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.update(id,categoriaDto),HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class CategoriaController {
     @ApiResponse(responseCode = "200", description = "Categoría eliminada")
     @PutMapping("/delete/{id}")
     public ResponseEntity<Categoria> delete(@PathVariable("id")Integer id,
-                                            @RequestParam(value = "token") String token){
+                                            @RequestHeader(value = "Authorization") String token){
         empleadoService.validate(token);
         return new ResponseEntity<>(service.delete(id),HttpStatus.OK);
     }
